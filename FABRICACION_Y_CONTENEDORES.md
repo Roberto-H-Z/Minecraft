@@ -38,7 +38,7 @@ Las tres herramientas iniciales —espada de diamante, pico de diamante y triden
 
 ## Recetas incluidas
 
-Hay **21 recetas**. Debes respetar la disposición de los ingredientes; se aceptan patrones desplazados y reflejados.
+Hay **23 recetas**, incluidas las dos variantes de antorchas con carbón o carbón vegetal. Debes respetar la disposición de los ingredientes; se aceptan patrones desplazados y reflejados.
 
 | Resultado | Materiales y disposición |
 | --- | --- |
@@ -75,7 +75,7 @@ Carbón y carbón vegetal arden 80 segundos; troncos, tablones, mesas y cofres, 
 
 Cada cofre tiene **27 casillas independientes**, una tapa animada y la textura del paquete suministrado. Conserva los objetos al cerrarlo. Un bloque encima impide abrirlo. Al romperlo, suelta tanto su contenido como el cofre.
 
-Desde el menú de pausa, **Guardar mundo** conserva la distribución y durabilidad de los objetos, el contenido de cada cofre y el combustible y progreso de cada horno. **Cargar guardado** restaura esos datos. El formato es ahora versión 2 y puede importar los inventarios del guardado anterior, versión 1. El archivo sigue siendo `mundo-rodolfo.json` dentro de `Application.persistentDataPath`.
+Desde el menú de pausa, **Guardar mundo** conserva la distribución y durabilidad de los objetos, el contenido de cada cofre y el combustible y progreso de cada horno. **Cargar guardado** restaura esos datos. El formato es ahora versión 3 y puede importar los inventarios de las versiones anteriores. El archivo sigue siendo `mundo-rodolfo.json` dentro de `Application.persistentDataPath`.
 
 ## Texturas y alcance
 
@@ -83,4 +83,4 @@ Se reutilizaron del paquete que proporcionaste los paneles de inventario, mesa y
 
 Este sistema cubre esas recetas, hornos y cofres simples. No incluye todavía cofres dobles, tolvas, encantamientos, armaduras ni todas las recetas de Minecraft. Se conserva el inventario al regenerar a Rodolfo y la carga del mundo continúa siendo manual.
 
-La comprobación realizada fue la compilación de scripts con Unity 2023.2.20f1 en modo batch. No se ejecutaron pruebas de juego en Play durante esta implementación.
+La fabricación se comprobó inicialmente mediante compilación de scripts. Las nuevas funciones de inicio, equipo y misión se verificaron posteriormente en Play; consulta AVENTURA_DEL_DRAGON.md.

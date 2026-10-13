@@ -11,6 +11,15 @@ public class CieloVoxel : MonoBehaviour
     private Mesh mallaEstrellas;
     private readonly List<Transform> nubes = new List<Transform>();
     private readonly List<Vector3> origenNubes = new List<Vector3>();
+    private bool visible = true;
+
+    public void Mostrar(bool mostrar)
+    {
+        visible = mostrar;
+        if (solVisual != null) solVisual.gameObject.SetActive(mostrar);
+        if (lunaVisual != null) lunaVisual.gameObject.SetActive(mostrar);
+        if (estrellas != null) estrellas.gameObject.SetActive(mostrar);
+    }
 
     void Start()
     {
@@ -87,7 +96,7 @@ public class CieloVoxel : MonoBehaviour
 
     void LateUpdate()
     {
-        if (mundo == null || camara == null || solVisual == null) return;
+        if (!visible || mundo == null || camara == null || solVisual == null) return;
         float fase = Mathf.Repeat(Time.time / mundo.duracionDiaSegundos + .25f, 1f);
         float angulo = fase * Mathf.PI * 2f;
         Vector3 direccion = new Vector3(Mathf.Cos(angulo), Mathf.Sin(angulo), .15f).normalized;

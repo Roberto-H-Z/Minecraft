@@ -115,7 +115,7 @@ public partial class script : MonoBehaviour
     public float VelocidadActual => velocidad * (correr ? multiplicadorCarrera : 1f);
     public float CargaTridente => cargandoTridente && TieneTridente
         ? Mathf.Clamp01((Time.time - inicioCargaTridente) / Mathf.Max(0.1f, tiempoCargaTridente)) : 0f;
-    public bool InterfazAbierta => cargando || terminado || inventarioAbierto || pausado;
+    public bool InterfazAbierta => menuInicial || menuMision || bloqueoAventura || cargando || terminado || inventarioAbierto || pausado;
     public bool AcabaDeCerrarInventario => Time.frameCount == frameCierreInventario;
     public bool EsBloqueEnSlot(int slot) => !PilaEnSlot(slot).Vacia && CatalogoObjetosVoxel.De(PilaEnSlot(slot).id).bloque.HasValue;
     public bool EsBotinEnSlot(int slot) => !PilaEnSlot(slot).Vacia && !EsBloqueEnSlot(slot) && CatalogoObjetosVoxel.De(PilaEnSlot(slot).id).herramienta == ClaseHerramientaVoxel.Ninguna;
@@ -169,8 +169,10 @@ public partial class script : MonoBehaviour
         bloquesAdoquin = bloquesCarbon = bloquesHierro = bloquesDiamante = 0;
         InicializarInventario();
         slotSeleccionado = 0;
-        inicioCarga = Time.realtimeSinceStartup;
-        cargando = true;
+        menuInicial=true; cargando=false;
+        misionDragon=gameObject.AddComponent<MisionDragonVoxel>(); misionDragon.Configurar(this);
+        var equipo=gameObject.AddComponent<ArmaduraDiamanteVoxel>(); equipo.Configurar(this);
+        if(camaraSeguir!=null) camaraSeguir.MostrarCursorInterfaz(true);
         Time.timeScale = 0f;
     }
 
@@ -203,14 +205,20 @@ public partial class script : MonoBehaviour
 
     void Update()
     {
+        if(menuInicial) { if(Input.GetKeyDown(KeyCode.Return)) IniciarJuego(); return; }
+        if(menuMision) { if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M)) CerrarMenuMision(); return; }
+        if(bloqueoAventura) return;
+        if(Input.GetKeyDown(KeyCode.M) && !cargando && !terminado) { AbrirMenuMision(); return; }
         if (cargando)
         {
             if (Time.realtimeSinceStartup - inicioCarga < 2f) return;
             cargando = false;
             Time.timeScale = 1f;
+            if(camaraSeguir!=null) camaraSeguir.MostrarCursorInterfaz(false);
         }
         if (terminado) return;
 
+        ActualizarEquipoAventura();
         if (ProcesarInterfaz()) return;
 
         if (renderizadoresDestello != null && Time.time >= finDestello)
@@ -240,6 +248,7 @@ public partial class script : MonoBehaviour
             return;
         }
 
+        ActualizarArco();
         if (!TieneTridente) cargandoTridente = false;
         if (Input.GetMouseButtonDown(1))
         {
@@ -259,7 +268,7 @@ public partial class script : MonoBehaviour
         }
         else if (cargandoTridente && !Input.GetMouseButton(1)) cargandoTridente = false;
 
-        if (Input.GetMouseButton(1) && EsComidaEnSlot(slotSeleccionado) && hambre < 20)
+        if (Input.GetMouseButton(1) && PuedeComerSeleccionado)
         {
             tiempoComiendo += Time.deltaTime;
             if (tiempoComiendo >= 1.1f)
@@ -270,10 +279,12 @@ public partial class script : MonoBehaviour
         }
         else tiempoComiendo = 0f;
 
+        if(TieneArco && preparandoArco) { DetenerPicado(); return; }
         if (!Input.GetMouseButton(0)) ataqueEnEsteClic = false;
         if (Input.GetMouseButtonDown(0))
         {
-            if (BuscarSerVivoApuntado(out _, out _))
+            if(AtacarObjetivoEnd()) ataqueEnEsteClic=true;
+            else if (BuscarSerVivoApuntado(out _, out _))
             {
                 AtacarConEspada();
                 ataqueEnEsteClic = true;
@@ -311,7 +322,8 @@ public partial class script : MonoBehaviour
 
     void Comer()
     {
-        if (!EsComidaEnSlot(slotSeleccionado) || hambre >= 20) return;
+        if (!PuedeComerSeleccionado) return;
+        if(PilaEnSlot(slotSeleccionado).id==IdObjetoVoxel.ManzanaEncantada) AplicarManzanaEncantada();
         DefinicionObjetoVoxel alimento = HerramientaActual;
         hambre = Mathf.Min(20, hambre + alimento.alimento);
         saturacion = Mathf.Min(hambre, saturacion + alimento.saturacion);
@@ -358,7 +370,7 @@ public partial class script : MonoBehaviour
         DetenerPicado();
         tiempoComiendo = 0f;
         ataqueEnEsteClic = false;
-        cargandoTridente = false;
+        cargandoTridente = preparandoArco = false;
         solicitudSalto = -10f;
         if (inventarioAbierto) CerrarContenedor();
         inventarioAbierto = !inventarioAbierto;
@@ -536,7 +548,7 @@ public partial class script : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (terminado || cargando || pausado) return;
+        if (menuInicial || bloqueoAventura || menuMision || terminado || cargando || pausado) return;
         MoverConFisica();
     }
 
@@ -577,11 +589,13 @@ public partial class script : MonoBehaviour
         RecibirExplosion(posicionExplosion,1f,Bloque*6f,Bloque*3.5f);
     }
 
-    void AplicarDano(int cantidad, bool golpeMonstruo, Vector3 posicionAtacante, bool ignorarInvulnerabilidad = false)
+    void AplicarDano(int cantidad, bool golpeMonstruo, Vector3 posicionAtacante, bool ignorarInvulnerabilidad = false, bool omitirArmadura = false)
     {
+        if(menuInicial || cargando || menuMision || pausado || (misionDragon!=null && misionDragon.EnEnd && (misionDragon.Cinematica || misionDragon.Ganada))) return;
         if (terminado || (!ignorarInvulnerabilidad && Time.time < proximoDano)) return;
         proximoDano = Time.time + 1.2f;
-        vidas = Mathf.Max(0, vidas - Mathf.Max(1, cantidad));
+        int dano=CalcularDanoProtegido(Mathf.Max(1,cantidad),omitirArmadura);
+        vidas = Mathf.Max(0, vidas - dano);
         tiempoRegeneracion = 0f;
         if (golpeMonstruo)
         {
@@ -599,7 +613,7 @@ public partial class script : MonoBehaviour
         DetenerPicado();
         tiempoComiendo = 0f;
         ataqueEnEsteClic = false;
-        cargandoTridente = false;
+        cargandoTridente = preparandoArco = false;
         inventarioAbierto = false;
         entradaMovimiento = Vector2.zero;
         rb.velocity = Vector3.zero;
@@ -609,6 +623,8 @@ public partial class script : MonoBehaviour
 
     void Reaparecer()
     {
+        if(misionDragon!=null && misionDragon.EnEnd) misionDragon.Regresar();
+        danoParcial=corazonesAbsorcion=0; regeneracionManzanaHasta=proteccionManzanaHasta=0;
         vidas = vidaMaxima;
         hambre = 20;
         saturacion = 5f;
@@ -677,6 +693,10 @@ public partial class script : MonoBehaviour
         float barraX = centro - 182f;
         float barraY = altoPantalla - 58f;
 
+        if(menuInicial) { DibujarInicio(anchoPantalla,altoPantalla); GUI.matrix=matrizAnterior; return; }
+        if(menuMision) { DibujarMenuMision(anchoPantalla,altoPantalla); GUI.matrix=matrizAnterior; return; }
+        if(misionDragon!=null && (misionDragon.Cinematica || misionDragon.Victoria))
+        { misionDragon.Dibujar(anchoPantalla,altoPantalla); GUI.matrix=matrizAnterior; return; }
         if (cargando)
         {
             DibujarCarga(anchoPantalla, altoPantalla);
@@ -710,12 +730,16 @@ public partial class script : MonoBehaviour
             Rect corazon = new Rect(barraX + i * 18f, barraY - 26f, 18f, 18f);
             Rect comidaIcono = new Rect(barraX + 184f + i * 18f, barraY - 26f, 18f, 18f);
             GUI.DrawTexture(corazon, corazonVacio);
-            if (i < vidas) GUI.DrawTexture(corazon, corazonLleno);
+            if (i+1 <= VidaVisible) GUI.DrawTexture(corazon, corazonLleno);
+            else if(i<VidaVisible) GUI.DrawTextureWithTexCoords(new Rect(corazon.x,corazon.y,corazon.width*.5f,corazon.height),corazonLleno,new Rect(0,0,.5f,1));
             GUI.DrawTexture(comidaIcono, polloVacio);
             int hambreEnIcono = hambre - (9 - i) * 2;
             if (hambreEnIcono >= 2) GUI.DrawTexture(comidaIcono, polloLleno);
             else if (hambreEnIcono == 1) GUI.DrawTexture(comidaIcono, polloMitad);
         }
+
+        DibujarEquipoAventura(anchoPantalla,altoPantalla,barraX,barraY);
+        if(misionDragon!=null) misionDragon.Dibujar(anchoPantalla,altoPantalla);
 
         if (barraObjetos != null)
             GUI.DrawTexture(new Rect(barraX, barraY, 364f, 44f), barraObjetos);

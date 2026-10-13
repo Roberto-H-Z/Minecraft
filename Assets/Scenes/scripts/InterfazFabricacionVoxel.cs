@@ -37,6 +37,7 @@ public partial class script
     {
         if (pila.Vacia) return true;
         if (grupo==inventario) return true;
+        if(grupo==armadura) return pila.id==TiposArmadura[indice];
         if (pila.permanente) return false;
         if (estacionAbierta!=null && grupo==estacionAbierta.contenido) return estacionAbierta.Acepta(indice,pila);
         return true;
@@ -145,7 +146,8 @@ public partial class script
         if(textura!=null) { textura.filterMode=FilterMode.Point; textura.wrapMode=TextureWrapMode.Clamp; }
         if(textura!=null && fondo!="generic_54") GUI.DrawTextureWithTexCoords(panel,textura,new Rect(0,1f-166f/textura.height,176f/textura.width,166f/textura.height));
         string titulo=estacionAbierta==null ? "Inventario" : CatalogoObjetosVoxel.De(CatalogoObjetosVoxel.DeBloque(estacionAbierta.tipo)).nombre;
-        GUI.Label(new Rect(x+8*escala,y+4*escala,150*escala,20),titulo,textoInterfaz);
+        GUI.Label(new Rect(x+(estacionAbierta==null ? 98 : 8)*escala,y+4*escala,(estacionAbierta==null ? 74 : 150)*escala,20),estacionAbierta==null ? "Fabricación" : titulo,textoInterfaz);
+        if(GUI.Button(new Rect(panel.xMax-160,y-25,130,22),"Misiones [M]")) { AbrirMenuMision(); return; }
         if(GUI.Button(new Rect(panel.xMax-20,y-25,20,22),"X")) { CambiarInventario(); return; }
         System.Func<float,float,Rect> celda=(cx,cy)=>new Rect(x+cx*escala,y+cy*escala,18*escala,18*escala);
         if(TieneFabricacion)
@@ -165,7 +167,7 @@ public partial class script
                     if(evento.type==EventType.MouseDown && evento.button==0) { TomarFabricacion(evento.shift); evento.Use(); }
                 }
             }
-            if(lado==2) GUI.Label(new Rect(x+8*escala,y+30*escala,86*escala,40*escala),"Fabricación\n2 × 2",textoInterfaz);
+            if(lado==2) for(int i=0;i<4;i++) CasillaInventario(armadura,i,celda(8,8+i*18));
             DibujarRecetario(new Rect(x-205*escala,y,198*escala,166*escala));
         }
         else if(estacionAbierta.tipo==TipoBloque.Cofre)

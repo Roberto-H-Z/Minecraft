@@ -12,7 +12,7 @@
 
 - El creeper mantiene su mecha y efecto de partículas existente.
 - La onda tiene un alcance de **12 unidades** para daño y empuje. La fuerza se reduce con la distancia y la cobertura; una pared protege a Rodolfo.
-- Cerca de la explosión, el daño máximo sigue siendo **la mitad de los corazones**.
+- Antes de aplicar armadura y absorción, el daño máximo cercano es **la mitad de los corazones**.
 - Rodolfo recibe un impulso horizontal y vertical con inercia. Durante un instante se limita el desplazamiento voluntario para que avanzar hacia el creeper no anule el empuje. Después recupera el control. El recorrido depende de la distancia, los obstáculos y la caída.
 - El alcance máximo de destrucción es **3 bloques**, equivalentes a 6 unidades con el tamaño actual. El cráter es irregular y puede ser menor según la resistencia del material.
 - La presión se calcula por rayos: tierra y arena son más frágiles que madera, y piedra y minerales resisten más. La capa inferior del mundo permanece protegida.

@@ -7,6 +7,7 @@ public class DatosBloqueFuncionalVoxel
     public Vector3Int celda;
     public TipoBloque tipo;
     public int giro;
+    public bool delEnd;
     public PilaObjetoVoxel[] contenido;
     public float combustible, combustibleTotal, progreso;
     public int experiencia;
@@ -18,6 +19,7 @@ public class BloqueFuncionalVoxel : MonoBehaviour
     public TipoBloque tipo;
     public Vector3Int celda;
     public int giro;
+    public bool delEnd;
     public PilaObjetoVoxel[] contenido;
     public float combustible, combustibleTotal, progreso;
     public int experiencia;
@@ -40,7 +42,8 @@ public class BloqueFuncionalVoxel : MonoBehaviour
         transform.localRotation = Quaternion.Euler(0f, giro * 90f, 0f);
         BoxCollider colision = gameObject.AddComponent<BoxCollider>();
         colision.size = Vector3.one * mundo.TamanoBloque;
-        if (tipo == TipoBloque.Cofre) CrearCofre();
+        if(tipo==TipoBloque.Antorcha) gameObject.AddComponent<AntorchaVoxel>().Configurar(mundo,this);
+        else if (tipo == TipoBloque.Cofre) CrearCofre();
         else
         {
             GameObject visual = new GameObject("Bloque texturizado");
@@ -169,12 +172,13 @@ public class BloqueFuncionalVoxel : MonoBehaviour
         experiencia=0;
     }
     public DatosBloqueFuncionalVoxel Guardar() => new DatosBloqueFuncionalVoxel
-    { celda = celda, tipo = tipo, giro = giro, contenido = PilasVoxel.Copiar(contenido), combustible = combustible,
+    { celda = celda, tipo = tipo, giro = giro, delEnd=delEnd, contenido = PilasVoxel.Copiar(contenido), combustible = combustible,
         combustibleTotal = combustibleTotal, progreso = progreso, experiencia = experiencia };
     public void Cargar(DatosBloqueFuncionalVoxel datos)
     {
-        contenido = PilasVoxel.Copiar(datos.contenido); giro = datos.giro;
+        contenido = PilasVoxel.Copiar(datos.contenido); giro = datos.giro; delEnd=datos.delEnd;
         transform.localRotation = Quaternion.Euler(0,giro * 90f,0);
+        if(tipo==TipoBloque.Antorcha) GetComponent<AntorchaVoxel>().AjustarMontaje(giro);
         combustible = datos.combustible; combustibleTotal = datos.combustibleTotal;
         progreso = datos.progreso; experiencia = datos.experiencia;
         cocinando = contenido.Length > 0 ? contenido[0].id : IdObjetoVoxel.Ninguno;

@@ -1,0 +1,51 @@
+OK: Menu inicial visible antes de cargar
+OK: Mundo detenido mientras se muestra el menu
+OK: Arco inicial con infinidad
+OK: Stack inicial de 64 antorchas
+OK: Manzanas encantadas iniciales
+OK: Armadura de diamante equipada
+OK: Modelo de armadura cubre cabeza, cuerpo, brazos, piernas y botas
+OK: Iniciar abre pantalla de carga
+OK: Carga continua antes de dos segundos
+OK: Juego comienza tras dos segundos
+OK: Inicio en primera persona
+OK: Comer manzana encantada con hambre llena y ganar absorcion
+OK: Armadura y absorcion protegen del dano
+OK: Regeneracion de la manzana restaura corazones
+OK: Boton de mision pausa y abre oferta
+OK: Aceptar transporta al End e inicia cinematica
+OK: Cinematica protege al jugador de dano pendiente
+OK: Diez cristales activos en la arena
+OK: Modelo del dragon del usuario cargado completo
+OK: Cinematica mueve la camara
+OK: Cinematica termina y habilita combate
+OK: Dragon vuela y se mueve
+OK: Suelo del End tiene colision
+OK: Colocar antorcha en la arena
+OK: Antorcha ilumina y conserva su apoyo
+OK: Continuar combate conserva el retorno al mundo
+OK: Flecha fisica destruye un cristal
+OK: Cristales regeneran la barra de vida del dragon
+OK: Flecha alcanza al dragon y reduce vida interactiva
+OK: Arco no consume flechas ni durabilidad inicial
+OK: Dragon posado resiste flechas como en el juego
+OK: Espada puede herir al dragon posado
+OK: Guardado aislado del mundo, equipo y mision
+OK: Carga restaura vida y cristales de la mision
+OK: Carga conserva equipo y manzanas consumidas
+OK: Guardado restaura antorcha en la dimension correcta
+OK: Sin cristales el dragon deja de regenerarse
+OK: Dragon puede matar y aparece estado de muerte
+OK: Regenerar devuelve al mundo con vida
+OK: Jugador puede matar al dragon y completar la mision
+OK: Victoria no se pierde por aliento pendiente del dragon
+OK: Pantalla de victoria tras muerte del dragon
+OK: Continuar vuelve al mundo y conserva victoria
+OK: Abrir inventario cancela correctamente la carga del arco
+OK: Suelo del mundo original restaurado
+OK: Antorcha se puede colocar tambien en el mundo original
+OK: Antorcha no elimina la cara ni la colision del suelo
+OK: Antorcha sostenida usa su forma y textura, no un cubo completo
+OK: Armadura de diamante visible en tercera persona
+OK: Sin errores ni excepciones de Unity durante la partida de prueba
+RESULTADO: TODAS LAS COMPROBACIONES PASARON

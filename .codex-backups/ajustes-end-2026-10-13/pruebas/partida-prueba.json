@@ -1,0 +1,938 @@
+{
+    "version": 3,
+    "mision": {
+        "aceptada": true,
+        "ganada": false,
+        "enEnd": true,
+        "vidaDragon": 112.0,
+        "cristales": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+        ],
+        "retorno": {
+            "x": -3.369999885559082,
+            "y": 5.265769004821777,
+            "z": -5.269085884094238
+        }
+    },
+    "armadura": [
+        {
+            "id": 47,
+            "cantidad": 1,
+            "resistencia": 361,
+            "permanente": false
+        },
+        {
+            "id": 48,
+            "cantidad": 1,
+            "resistencia": 526,
+            "permanente": false
+        },
+        {
+            "id": 49,
+            "cantidad": 1,
+            "resistencia": 493,
+            "permanente": false
+        },
+        {
+            "id": 50,
+            "cantidad": 1,
+            "resistencia": 427,
+            "permanente": false
+        }
+    ],
+    "danoParcial": 0.0,
+    "absorcion": 8.0,
+    "duracionAbsorcion": 117.84226989746094,
+    "duracionRegeneracion": 17.84226417541504,
+    "duracionResistencia": 297.8422546386719,
+    "inventario": [
+        {
+            "id": 14,
+            "cantidad": 1,
+            "resistencia": 1561,
+            "permanente": true
+        },
+        {
+            "id": 15,
+            "cantidad": 1,
+            "resistencia": 1561,
+            "permanente": true
+        },
+        {
+            "id": 16,
+            "cantidad": 1,
+            "resistencia": 250,
+            "permanente": true
+        },
+        {
+            "id": 45,
+            "cantidad": 1,
+            "resistencia": 384,
+            "permanente": true
+        },
+        {
+            "id": 44,
+            "cantidad": 64,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 46,
+            "cantidad": 15,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        },
+        {
+            "id": 0,
+            "cantidad": 0,
+            "resistencia": 0,
+            "permanente": false
+        }
+    ],
+    "cursor": {
+        "id": 0,
+        "cantidad": 0,
+        "resistencia": 0,
+        "permanente": false
+    },
+    "mundo": {
+        "semilla": 2847,
+        "ancho": 192,
+        "largo": 192,
+        "tamanoBloque": 2.0,
+        "quitados": [],
+        "colocados": [
+            {
+                "celda": {
+                    "x": 105,
+                    "y": 3,
+                    "z": 89
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 94,
+                    "y": 2,
+                    "z": 73
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 99,
+                    "y": 2,
+                    "z": 116
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 59,
+                    "y": 2,
+                    "z": 133
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 56,
+                    "y": 3,
+                    "z": 115
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 110,
+                    "y": 2,
+                    "z": 122
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 127,
+                    "y": 3,
+                    "z": 77
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 131,
+                    "y": 3,
+                    "z": 116
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 53,
+                    "y": 3,
+                    "z": 140
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 110,
+                    "y": 2,
+                    "z": 116
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 109,
+                    "y": 3,
+                    "z": 68
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 74,
+                    "y": 2,
+                    "z": 87
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 70,
+                    "y": 3,
+                    "z": 129
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 66,
+                    "y": 2,
+                    "z": 88
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 72,
+                    "y": 2,
+                    "z": 95
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 52,
+                    "y": 3,
+                    "z": 98
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 69,
+                    "y": 2,
+                    "z": 93
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 93,
+                    "y": 2,
+                    "z": 106
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 65,
+                    "y": 2,
+                    "z": 73
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 133,
+                    "y": 2,
+                    "z": 79
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 97,
+                    "y": 2,
+                    "z": 108
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 104,
+                    "y": 2,
+                    "z": 56
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 89,
+                    "y": 2,
+                    "z": 129
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 56,
+                    "y": 2,
+                    "z": 84
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 109,
+                    "y": 2,
+                    "z": 120
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 140,
+                    "y": 1,
+                    "z": 95
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 103,
+                    "y": 2,
+                    "z": 105
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 135,
+                    "y": 2,
+                    "z": 88
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 66,
+                    "y": 1,
+                    "z": 57
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 53,
+                    "y": 3,
+                    "z": 110
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 101,
+                    "y": 2,
+                    "z": 111
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 111,
+                    "y": 3,
+                    "z": 101
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 113,
+                    "y": 3,
+                    "z": 63
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 104,
+                    "y": 3,
+                    "z": 85
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 125,
+                    "y": 3,
+                    "z": 76
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 101,
+                    "y": 2,
+                    "z": 120
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 58,
+                    "y": 3,
+                    "z": 81
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 70,
+                    "y": 1,
+                    "z": 51
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 104,
+                    "y": 2,
+                    "z": 69
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 139,
+                    "y": 2,
+                    "z": 81
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 119,
+                    "y": 2,
+                    "z": 93
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 135,
+                    "y": 3,
+                    "z": 104
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 98,
+                    "y": 2,
+                    "z": 56
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 90,
+                    "y": 3,
+                    "z": 59
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 71,
+                    "y": 2,
+                    "z": 73
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 119,
+                    "y": 2,
+                    "z": 126
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 137,
+                    "y": 2,
+                    "z": 54
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 83,
+                    "y": 3,
+                    "z": 76
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 76,
+                    "y": 3,
+                    "z": 111
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 100,
+                    "y": 3,
+                    "z": 84
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 70,
+                    "y": 2,
+                    "z": 70
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 88,
+                    "y": 3,
+                    "z": 72
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 85,
+                    "y": 2,
+                    "z": 135
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 124,
+                    "y": 3,
+                    "z": 138
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 59,
+                    "y": 3,
+                    "z": 112
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 133,
+                    "y": 3,
+                    "z": 69
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 55,
+                    "y": 2,
+                    "z": 67
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 68,
+                    "y": 2,
+                    "z": 140
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 126,
+                    "y": 2,
+                    "z": 92
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 100,
+                    "y": 2,
+                    "z": 125
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 102,
+                    "y": 3,
+                    "z": 84
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 54,
+                    "y": 3,
+                    "z": 101
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 127,
+                    "y": 2,
+                    "z": 113
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 56,
+                    "y": 2,
+                    "z": 63
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 73,
+                    "y": 2,
+                    "z": 86
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 73,
+                    "y": 2,
+                    "z": 77
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 60,
+                    "y": 3,
+                    "z": 114
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 70,
+                    "y": 2,
+                    "z": 103
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 72,
+                    "y": 2,
+                    "z": 93
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 51,
+                    "y": 3,
+                    "z": 99
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 86,
+                    "y": 3,
+                    "z": 51
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 134,
+                    "y": 3,
+                    "z": 119
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 139,
+                    "y": 3,
+                    "z": 66
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 58,
+                    "y": 3,
+                    "z": 77
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 99,
+                    "y": 2,
+                    "z": 118
+                },
+                "tipo": 4
+            },
+            {
+                "celda": {
+                    "x": 98,
+                    "y": 21,
+                    "z": 74
+                },
+                "tipo": 13
+            }
+        ],
+        "plantas": [],
+        "troncos": [],
+        "funcionales": [
+            {
+                "celda": {
+                    "x": 98,
+                    "y": 21,
+                    "z": 74
+                },
+                "tipo": 13,
+                "giro": 0,
+                "delEnd": true,
+                "contenido": [],
+                "combustible": 0.0,
+                "combustibleTotal": 0.0,
+                "progreso": 0.0,
+                "experiencia": 0
+            }
+        ]
+    },
+    "posicion": {
+        "x": 0.0,
+        "y": 43.0,
+        "z": -44.0
+    },
+    "reaparicion": {
+        "x": 0.0,
+        "y": 43.099998474121097,
+        "z": -44.0
+    },
+    "angulo": 0.0,
+    "saturacion": 14.600000381469727,
+    "agachado": false,
+    "vidas": 10,
+    "hambre": 20,
+    "experiencia": 0,
+    "seleccion": 5,
+    "bloques": [],
+    "botines": [],
+    "barraBloques": [],
+    "barraBotines": []
+}

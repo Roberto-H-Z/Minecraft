@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public enum TipoBloque { Tierra, Piedra, Madera, Arena, Adoquin, Carbon, Hierro, Diamante, Tronco, MesaTrabajo, Horno, Cofre, Vidrio }
+public enum TipoBloque { Tierra, Piedra, Madera, Arena, Adoquin, Carbon, Hierro, Diamante, Tronco, MesaTrabajo, Horno, Cofre, Vidrio, Antorcha }
 
 // Construye el paisaje al abrir la escena y antes de que aparezcan los personajes.
 [ExecuteAlways]
@@ -641,6 +641,8 @@ public partial class MundoVoxel : MonoBehaviour
     public bool ColocarBloque(RaycastHit impacto, TipoBloque tipo)
     {
         if (!Application.isPlaying || !ImpactoValido(impacto)) return false;
+        if(raizDimensionEnd!=null && tipo!=TipoBloque.Antorcha) return false;
+        if(impacto.collider.GetComponentInParent<DragonEndVoxel>()!=null || impacto.collider.GetComponentInParent<CristalEndVoxel>()!=null) return false;
         Vector3Int celda = CeldaImpacto(impacto) + DireccionCelda(transform.InverseTransformDirection(impacto.normal));
         if (celda.x < 0 || celda.x >= ancho || celda.z < 0 || celda.z >= largo ||
             celda.y <= FondoRoca || celda.y > 32 || ExisteBloque(celda)) return false;
@@ -653,11 +655,18 @@ public partial class MundoVoxel : MonoBehaviour
             if (!EsColisionTerreno(obstaculo) && !obstaculo.isTrigger &&
                 obstaculo.GetComponentInParent<ObjetoRecogibleVoxel>() == null) return false;
 
+        if(tipo==TipoBloque.Antorcha && impacto.normal.y<-.5f) return false;
         bloquesColocados[celda] = tipo;
         SonidosVoxel.Emitir("poner", centro);
         if(celda.y==alturas[celda.x,celda.z]+1 && celdasConPlantas.Contains(new Vector2Int(celda.x,celda.z)))
             plantasQuitadas.Add(new Vector2Int(celda.x,celda.z));
         ActualizarCelda(celda);
+        if(tipo==TipoBloque.Antorcha && funcionales.TryGetValue(celda,out var antorcha))
+        {
+            Vector3 normal=transform.InverseTransformDirection(impacto.normal);
+            int giro=normal.y>.5f ? 0 : 4+((Mathf.RoundToInt(Mathf.Atan2(normal.x,normal.z)*Mathf.Rad2Deg/90f)+4)%4);
+            antorcha.GetComponent<AntorchaVoxel>().AjustarMontaje(giro);
+        }
         return true;
     }
 
@@ -721,26 +730,26 @@ public partial class MundoVoxel : MonoBehaviour
             tipo == TipoBloque.Carbon ? 7 : tipo == TipoBloque.Hierro ? 8 :
             tipo == TipoBloque.Diamante ? 9 :
             conPasto ? 1 : 2;
-        if (!ExisteBloque(celda + Vector3Int.up))
+        if (!OcupaCara(celda + Vector3Int.up))
         {
             int tono = conPasto ? 0 : materialLateral;
             Quad(new Vector3(x0, arriba, z0), new Vector3(x0, arriba, z1),
                 new Vector3(x1, arriba, z1), new Vector3(x1, arriba, z0), tono, true);
         }
-        if (y > FondoRoca && !ExisteBloque(celda + Vector3Int.down))
+        if (y > FondoRoca && !OcupaCara(celda + Vector3Int.down))
             Quad(new Vector3(x0, abajo, z0), new Vector3(x0, abajo, z1),
                 new Vector3(x1, abajo, z1), new Vector3(x1, abajo, z0),
                 tipo == TipoBloque.Tierra ? 2 : materialLateral);
-        if (!ExisteBloque(celda + Vector3Int.left))
+        if (!OcupaCara(celda + Vector3Int.left))
             Quad(new Vector3(x0, abajo, z0), new Vector3(x0, arriba, z0),
                 new Vector3(x0, arriba, z1), new Vector3(x0, abajo, z1), materialLateral);
-        if (!ExisteBloque(celda + Vector3Int.right))
+        if (!OcupaCara(celda + Vector3Int.right))
             Quad(new Vector3(x1, abajo, z1), new Vector3(x1, arriba, z1),
                 new Vector3(x1, arriba, z0), new Vector3(x1, abajo, z0), materialLateral);
-        if (!ExisteBloque(celda + new Vector3Int(0, 0, -1)))
+        if (!OcupaCara(celda + new Vector3Int(0, 0, -1)))
             Quad(new Vector3(x1, abajo, z0), new Vector3(x1, arriba, z0),
                 new Vector3(x0, arriba, z0), new Vector3(x0, abajo, z0), materialLateral);
-        if (!ExisteBloque(celda + new Vector3Int(0, 0, 1)))
+        if (!OcupaCara(celda + new Vector3Int(0, 0, 1)))
             Quad(new Vector3(x0, abajo, z1), new Vector3(x0, arriba, z1),
                 new Vector3(x1, arriba, z1), new Vector3(x1, abajo, z1), materialLateral);
     }

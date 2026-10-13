@@ -96,7 +96,7 @@ public partial class script
             mostrarNombreHasta = Time.time + 2.3f;
             DetenerPicado();
             tiempoComiendo = 0f;
-            cargandoTridente = false;
+            cargandoTridente = preparandoArco = false;
         }
     }
 
@@ -105,7 +105,7 @@ public partial class script
         pausado = !pausado;
         DetenerPicado();
         tiempoComiendo = 0f;
-        cargandoTridente = false;
+        cargandoTridente = preparandoArco = false;
         entradaMovimiento = Vector2.zero;
         solicitudSalto = -10f;
         Time.timeScale = pausado ? 0f : 1f;
@@ -157,7 +157,7 @@ public partial class script
         if (hambre == 0 && vidas > 1)
         {
             tiempoInanicion += Time.deltaTime;
-            if (tiempoInanicion >= 4f) { RecibirDano(1); tiempoInanicion = 0f; }
+            if (tiempoInanicion >= 4f) { RecibirDanoAmbiental(1); tiempoInanicion = 0f; }
         }
         else tiempoInanicion = 0f;
 
@@ -166,7 +166,7 @@ public partial class script
         if (aire <= 0f)
         {
             tiempoAhogo += Time.deltaTime;
-            if (tiempoAhogo >= 2f) { RecibirDano(1); tiempoAhogo = 0f; }
+            if (tiempoAhogo >= 2f) { RecibirDanoAmbiental(1); tiempoAhogo = 0f; }
         }
         else tiempoAhogo = 0f;
         if (Input.GetKeyDown(KeyCode.Space)) solicitudSalto = Time.time;
@@ -188,7 +188,7 @@ public partial class script
         {
             float bloquesCaidos = (cumbreCaida - rb.position.y) / Bloque;
             cayendo = false;
-            if (bloquesCaidos > 3.2f) RecibirDano(Mathf.CeilToInt((bloquesCaidos - 3f) * .5f));
+            if (bloquesCaidos > 3.2f) RecibirDanoAmbiental(Mathf.CeilToInt((bloquesCaidos - 3f) * .5f));
         }
         else if (enSuelo) cayendo = false;
 

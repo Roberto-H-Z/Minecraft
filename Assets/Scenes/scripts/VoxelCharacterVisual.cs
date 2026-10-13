@@ -35,6 +35,7 @@ public class VoxelCharacterVisual : MonoBehaviour
     private Mesh mallaTierraMano;
     private Mesh mallaCubo;
     private Mesh mallaBloquesEspeciales;
+    private Mesh mallaAntorcha;
     private Rigidbody fisica;
     private script controlador;
     private float cicloPaso;
@@ -323,6 +324,11 @@ public class VoxelCharacterVisual : MonoBehaviour
             filtro.sharedMesh=ModeloCofreVoxel.Malla;
             renderizador.sharedMaterial=ModeloCofreVoxel.Material;
         }
+        else if(tipo==TipoBloque.Antorcha)
+        {
+            if(mallaAntorcha==null) mallaAntorcha=AntorchaVoxel.CrearMalla();
+            filtro.sharedMesh=mallaAntorcha; renderizador.sharedMaterials=mundoVisual.MaterialesEspeciales(tipo,false);
+        }
         else if ((int)tipo >= 8)
         {
             if (mallaBloquesEspeciales == null) mallaBloquesEspeciales = BloqueFuncionalVoxel.CrearCuboSeisCaras();
@@ -513,7 +519,7 @@ public class VoxelCharacterVisual : MonoBehaviour
         float balanceo = Mathf.Sin(cicloPaso) * amplitud;
         float avanceGolpe = Mathf.Clamp01((finGolpe - Time.time) / 0.28f);
         float golpe = Mathf.Sin((1f - avanceGolpe) * Mathf.PI) * 75f;
-        float cargaTridente = controlador != null ? controlador.CargaTridente : 0f;
+        float cargaTridente = controlador != null ? Mathf.Max(controlador.CargaTridente,controlador.CargaArco) : 0f;
         Animar(brazoIzquierdo, -balanceo);
         Animar(brazoDerecho, balanceo + golpe - cargaTridente * 35f);
         Animar(piernaIzquierda, balanceo);
@@ -522,7 +528,7 @@ public class VoxelCharacterVisual : MonoBehaviour
         if (controlador != null && controlador.TipoVisualHerramienta == 0 && materialEspada != null)
             materialEspada.mainTexture = controlador.IconoEnSlot(controlador.slotSeleccionado);
         if (controlador != null && controlador.TipoVisualHerramienta == 1 && materialPico != null)
-            materialPico.mainTexture = controlador.IconoEnSlot(controlador.slotSeleccionado);
+            materialPico.mainTexture = controlador.IconoHerramientaActual;
         bool primeraPersonaActiva = camaraSeguir != null && camaraSeguir.EnPrimeraPersona;
         if (piezasCuerpo != null)
             for (int i = 0; i < piezasCuerpo.Length; i++)
@@ -543,6 +549,11 @@ public class VoxelCharacterVisual : MonoBehaviour
         }
         if (objetosMano != null && controlador != null)
         {
+            // El arco tiene su propia postura: su apertura y flecha miran hacia el objetivo.
+            Transform arcoMano = objetosMano[5].transform;
+            arcoMano.localScale = Vector3.one * .85f;
+            arcoMano.localPosition = new Vector3(0f, -.70f, -.30f);
+            arcoMano.localRotation = Quaternion.Euler(0f, controlador.TieneArco ? 80f : 0f, -15f);
             Texture2D iconoBotin = controlador.IconoBotinEnSlot(controlador.slotSeleccionado);
             if (materialBotinMano != null) materialBotinMano.mainTexture = iconoBotin;
             if (materialBotinVista != null) materialBotinVista.mainTexture = iconoBotin;
@@ -577,7 +588,14 @@ public class VoxelCharacterVisual : MonoBehaviour
                      i == 3 && controlador.EsBotinEnSlot(controlador.slotSeleccionado) ||
                      i == 6 && controlador.EsBloqueEnSlot(controlador.slotSeleccionado)));
             herramientasVista[4].transform.localRotation = Quaternion.Euler(0f, 0f, -golpe * 0.75f);
-            herramientasVista[5].transform.localRotation = Quaternion.Euler(0f, 0f, -golpe * 0.75f);
+            Transform arcoVista = herramientasVista[5].transform;
+            arcoVista.localScale = controlador.TieneArco
+                ? new Vector3(1.12f, 1.12f, 1.12f) : new Vector3(-1.22f, 1.22f, 1.22f);
+            arcoVista.localPosition = controlador.TieneArco
+                ? Vector3.Lerp(new Vector3(.43f, -.83f, 1.12f), new Vector3(.32f, -.76f, 1.02f), controlador.CargaArco)
+                : new Vector3(1.35f, -.92f, 1.05f);
+            arcoVista.localRotation = Quaternion.Euler(0f, controlador.TieneArco ? -12f : 0f,
+                (controlador.TieneArco ? 12f : 0f) - golpe * .75f);
             herramientasVista[2].transform.localPosition = Vector3.Lerp(
                 new Vector3(1.40f, -0.95f, 1.05f), new Vector3(1.60f, -0.83f, 0.90f), cargaTridente);
             herramientasVista[2].transform.localRotation = Quaternion.Euler(
@@ -640,6 +658,7 @@ public class VoxelCharacterVisual : MonoBehaviour
         if (mallaBotin != null) Destroy(mallaBotin);
         if (mallaTierraMano != null) Destroy(mallaTierraMano);
         if (mallaBloquesEspeciales != null) Destroy(mallaBloquesEspeciales);
+        if(mallaAntorcha!=null) Destroy(mallaAntorcha);
         if (materialPielMinecraft != null) Destroy(materialPielMinecraft);
     }
 

@@ -47,6 +47,11 @@ public class ObjetoRecogibleVoxel : MonoBehaviour
             cubo.GetComponent<MeshFilter>().sharedMesh=ModeloCofreVoxel.Malla;
             aspecto.sharedMaterial=ModeloCofreVoxel.Material;
         }
+        else if(tipo==TipoBloque.Antorcha)
+        {
+            objeto.mallaPropia=AntorchaVoxel.CrearMalla(); cubo.GetComponent<MeshFilter>().sharedMesh=objeto.mallaPropia;
+            aspecto.sharedMaterials=mundo.MaterialesEspeciales(tipo,false);
+        }
         else if ((int)tipo >= 8)
         {
             objeto.mallaPropia = BloqueFuncionalVoxel.CrearCuboSeisCaras();

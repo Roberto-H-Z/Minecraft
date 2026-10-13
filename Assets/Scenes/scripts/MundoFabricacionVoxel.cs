@@ -28,6 +28,7 @@ public partial class MundoVoxel
         { frente=atras=lado="oak_log"; arriba=abajo="oak_log_top"; }
         else if (tipo == TipoBloque.Cofre)
         { frente=atras=lado=arriba=abajo="oak_planks"; }
+        else if(tipo==TipoBloque.Antorcha) { frente=atras=lado=arriba=abajo="torch"; }
         else { frente=atras=lado=arriba=abajo="glass"; }
         return new[] {MaterialEspecial(frente),MaterialEspecial(atras),MaterialEspecial(lado),MaterialEspecial(lado),MaterialEspecial(arriba),MaterialEspecial(abajo)};
     }
@@ -49,10 +50,10 @@ public partial class MundoVoxel
         }
         if(!especial || !Application.isPlaying) return;
         var objeto=new GameObject(CatalogoObjetosVoxel.De(CatalogoObjetosVoxel.DeBloque(tipo)).nombre);
-        objeto.transform.SetParent(raizGenerada,false); objeto.transform.position=CentroCelda(celda);
+        objeto.transform.SetParent(PadreEspecial(celda),false); objeto.transform.position=CentroCelda(celda);
         var bloque=objeto.AddComponent<BloqueFuncionalVoxel>();
         int giro=jugador!=null ? Mathf.RoundToInt(jugador.transform.eulerAngles.y/90f+2f)%4 : 0;
-        bloque.Configurar(this,celda,tipo,giro); funcionales[celda]=bloque;
+        bloque.Configurar(this,celda,tipo,giro); bloque.delEnd=raizDimensionEnd!=null; funcionales[celda]=bloque;
     }
     public BloqueFuncionalVoxel FuncionalApuntado(RaycastHit impacto) => impacto.collider != null ? impacto.collider.GetComponentInParent<BloqueFuncionalVoxel>() : null;
     public bool PuedeAbrirCofre(BloqueFuncionalVoxel cofre)
@@ -67,7 +68,7 @@ public partial class MundoVoxel
         return true;
     }
     bool ImpactoValido(RaycastHit impacto) => impacto.collider != null &&
-        (EsColisionTerreno(impacto.collider) || troncos.ContainsKey(impacto.collider) || FuncionalApuntado(impacto) != null);
+        (EsColisionTerreno(impacto.collider) || impacto.collider.GetComponentInParent<ArenaEndVoxel>()!=null || troncos.ContainsKey(impacto.collider) || FuncionalApuntado(impacto) != null);
     Vector3Int CeldaImpacto(RaycastHit impacto)
     {
         BloqueFuncionalVoxel funcional = FuncionalApuntado(impacto);
@@ -111,7 +112,7 @@ public partial class MundoVoxel
         bool madera = tipo == TipoBloque.Tronco || tipo == TipoBloque.Madera || tipo == TipoBloque.MesaTrabajo || tipo == TipoBloque.Cofre;
         bool tierra = tipo == TipoBloque.Tierra || tipo == TipoBloque.Arena;
         bool adecuada = herramienta.herramienta == (madera ? ClaseHerramientaVoxel.Hacha : tierra ? ClaseHerramientaVoxel.Pala : ClaseHerramientaVoxel.Pico);
-        float baseTiempo = madera ? 2.2f : tierra ? .8f : tipo == TipoBloque.Vidrio ? .3f : 3.2f;
+        float baseTiempo = tipo==TipoBloque.Antorcha ? .12f : madera ? 2.2f : tierra ? .8f : tipo == TipoBloque.Vidrio ? .3f : 3.2f;
         return Mathf.Max(.12f,baseTiempo/(adecuada ? herramienta.rapidez : 1f));
     }
 }

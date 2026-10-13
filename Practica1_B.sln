@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToonyColorsPro.Demo.Editor"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFXR.WelcomeScreen", "CFXR.WelcomeScreen.csproj", "{0042462E-1730-14BB-6353-EF7386E52000}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{86003FCE-876B-7CE9-CFB7-6313D6ECB9DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{0042462E-1730-14BB-6353-EF7386E52000}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0042462E-1730-14BB-6353-EF7386E52000}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0042462E-1730-14BB-6353-EF7386E52000}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86003FCE-876B-7CE9-CFB7-6313D6ECB9DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86003FCE-876B-7CE9-CFB7-6313D6ECB9DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86003FCE-876B-7CE9-CFB7-6313D6ECB9DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86003FCE-876B-7CE9-CFB7-6313D6ECB9DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -25,7 +25,10 @@ public struct BloqueGuardadoVoxel
 [Serializable]
 public class PartidaVoxel
 {
-    public int version = 2;
+    public int version = 3;
+    public DatosMisionDragonVoxel mision;
+    public PilaObjetoVoxel[] armadura;
+    public float danoParcial, absorcion, duracionAbsorcion, duracionRegeneracion, duracionResistencia;
     public PilaObjetoVoxel[] inventario;
     public PilaObjetoVoxel cursor;
     public DatosMundoVoxel mundo;
@@ -74,7 +77,7 @@ public partial class MundoVoxel
         if (!compatible) return false;
         foreach (Vector3Int celda in datos.quitados) if (!CeldaValida(celda)) return false;
         foreach (BloqueGuardadoVoxel bloque in datos.colocados)
-            if (!CeldaValida(bloque.celda) || (int)bloque.tipo < 0 || (int)bloque.tipo > (int)TipoBloque.Vidrio) return false;
+            if (!CeldaValida(bloque.celda) || (int)bloque.tipo < 0 || (int)bloque.tipo > (int)TipoBloque.Antorcha) return false;
         foreach (Vector2Int celda in datos.plantas)
             if (celda.x < 0 || celda.x >= ancho || celda.y < 0 || celda.y >= largo) return false;
         foreach (Vector3 posicion in datos.troncos)
@@ -86,7 +89,7 @@ public partial class MundoVoxel
         {
             if (bloque == null || !celdas.Add(bloque.celda) ||
                 !datos.colocados.Exists(p => p.celda == bloque.celda && p.tipo == bloque.tipo) ||
-                (int)bloque.tipo < 8 || bloque.giro < 0 || bloque.giro > 3 ||
+                (int)bloque.tipo < 8 || bloque.giro < 0 || bloque.giro > (bloque.tipo==TipoBloque.Antorcha ? 7 : 3) ||
                 !PilasVoxel.Validas(bloque.contenido,bloque.tipo==TipoBloque.Cofre ? 27 : bloque.tipo==TipoBloque.Horno ? 3 : 0) ||
                 !NumeroFinito(bloque.combustible) || !NumeroFinito(bloque.combustibleTotal) || !NumeroFinito(bloque.progreso) ||
                 bloque.combustible < 0 || bloque.combustibleTotal < bloque.combustible || bloque.combustibleTotal > 80 ||
@@ -136,13 +139,28 @@ public partial class MundoVoxel
 
 public partial class script
 {
-    private string RutaGuardado => Path.Combine(Application.persistentDataPath, "mundo-rodolfo.json");
+#if UNITY_EDITOR
+    private string rutaGuardadoPruebas;
+#endif
+    private string RutaGuardado
+    {
+        get
+        {
+#if UNITY_EDITOR
+            if(!string.IsNullOrEmpty(rutaGuardadoPruebas)) return rutaGuardadoPruebas;
+#endif
+            return Path.Combine(Application.persistentDataPath,"mundo-rodolfo.json");
+        }
+    }
 
     void GuardarPartida()
     {
         if (mundo == null) return;
         PartidaVoxel datos = new PartidaVoxel
         {
+            mision=misionDragon!=null ? misionDragon.Guardar() : null, armadura=PilasVoxel.Copiar(armadura),
+            danoParcial=danoParcial, absorcion=corazonesAbsorcion,duracionAbsorcion=Mathf.Max(0,absorcionHasta-Time.time),
+            duracionRegeneracion=Mathf.Max(0,regeneracionManzanaHasta-Time.time),duracionResistencia=Mathf.Max(0,proteccionManzanaHasta-Time.time),
             mundo = mundo.ExportarMundo(), posicion = rb.position, reaparicion = puntoReaparicion,
             angulo = camaraSeguir != null ? camaraSeguir.AnguloHorizontal : transform.eulerAngles.y,
             vidas = vidas, hambre = hambre, saturacion = saturacion, experiencia = experiencia,
@@ -166,17 +184,30 @@ public partial class script
         {
             if (!File.Exists(RutaGuardado)) { MostrarAviso("Todavía no hay un mundo guardado."); return; }
             PartidaVoxel datos = JsonUtility.FromJson<PartidaVoxel>(File.ReadAllText(RutaGuardado));
-            if (datos == null || (datos.version != 1 && datos.version != 2) || !mundo.Compatible(datos.mundo) ||
+            if (datos == null || (datos.version <1 || datos.version>3) || !mundo.Compatible(datos.mundo) ||
                 !MundoVoxel.PosicionFinita(datos.posicion) || !MundoVoxel.PosicionFinita(datos.reaparicion) ||
                 !MundoVoxel.NumeroFinito(datos.angulo) || !MundoVoxel.NumeroFinito(datos.saturacion))
             { MostrarAviso("El guardado no corresponde a este terreno."); return; }
             PilaObjetoVoxel[] restaurado = datos.version==1 ? MigrarInventario(datos) : datos.inventario;
             PilaObjetoVoxel cursor = datos.version==1 || datos.cursor==null ? new PilaObjetoVoxel() : datos.cursor;
-            if(!PilasVoxel.Validas(restaurado,36) || !PilasVoxel.Validas(new[]{cursor},1) || !HerramientasInicialesValidas(restaurado,cursor))
+            if(!PilasVoxel.Validas(restaurado,36) || !PilasVoxel.Validas(new[]{cursor},1) || !HerramientasInicialesValidas(restaurado,cursor,datos.version<3))
             { MostrarAviso("El inventario del guardado no es valido."); return; }
+            if(datos.version>=3 && (!PilasVoxel.Validas(datos.armadura,4) || !MisionGuardadaValida(datos.mision) ||
+                !MundoVoxel.NumeroFinito(datos.danoParcial) || !MundoVoxel.NumeroFinito(datos.absorcion) ||
+                !MundoVoxel.NumeroFinito(datos.duracionAbsorcion) || !MundoVoxel.NumeroFinito(datos.duracionRegeneracion) || !MundoVoxel.NumeroFinito(datos.duracionResistencia)))
+            { MostrarAviso("El equipo o la mision del guardado no son validos."); return; }
+            if(datos.version>=3) for(int i=0;i<4;i++) if(!datos.armadura[i].Vacia && datos.armadura[i].id!=TiposArmadura[i]) { MostrarAviso("Equipo de armadura invalido."); return; }
             CerrarContenedor();
+            if(misionDragon!=null && misionDragon.EnEnd) misionDragon.Regresar();
             mundo.ImportarMundo(datos.mundo);
             inventario=PilasVoxel.Copiar(restaurado); cursorObjeto=cursor.Copia();
+            if(datos.version>=3 && PilasVoxel.Validas(datos.armadura,4)) armadura=PilasVoxel.Copiar(datos.armadura);
+            else for(int i=0;i<4;i++) armadura[i]=new PilaObjetoVoxel(TiposArmadura[i]);
+            if(datos.version<3) ActualizarEquipoGuardadoAnterior();
+            danoParcial=Mathf.Clamp(datos.danoParcial,0,.999f); corazonesAbsorcion=Mathf.Clamp(datos.absorcion,0,8);
+            absorcionHasta=Time.time+Mathf.Clamp(datos.duracionAbsorcion,0,120);
+            regeneracionManzanaHasta=Time.time+Mathf.Clamp(datos.duracionRegeneracion,0,20); proteccionManzanaHasta=Time.time+Mathf.Clamp(datos.duracionResistencia,0,300);
+            if(misionDragon!=null) misionDragon.Restaurar(datos.mision);
             SincronizarInventario();
             vidas = Mathf.Clamp(datos.vidas, 1, vidaMaxima);
             hambre = Mathf.Clamp(datos.hambre, 0, 20);
@@ -206,15 +237,15 @@ public partial class script
         catch (Exception error) { MostrarAviso("No se pudo cargar el guardado."); Debug.LogException(error); }
     }
 
-    bool HerramientasInicialesValidas(PilaObjetoVoxel[] pilas, PilaObjetoVoxel cursor)
+    bool HerramientasInicialesValidas(PilaObjetoVoxel[] pilas, PilaObjetoVoxel cursor,bool anterior=false)
     {
         var ids = new HashSet<IdObjetoVoxel>();
         foreach(var pila in pilas)
             if(pila.permanente && (!EsInicial(pila.id) || pila.cantidad!=1 || !ids.Add(pila.id))) return false;
         if(cursor.permanente && (!EsInicial(cursor.id) || cursor.cantidad!=1 || !ids.Add(cursor.id))) return false;
-        return ids.Count==3;
+        return ids.Contains(IdObjetoVoxel.EspadaDiamante) && ids.Contains(IdObjetoVoxel.PicoDiamante) && ids.Contains(IdObjetoVoxel.Tridente) && (anterior || ids.Contains(IdObjetoVoxel.ArcoFuego));
     }
-    bool EsInicial(IdObjetoVoxel id) => id==IdObjetoVoxel.EspadaDiamante || id==IdObjetoVoxel.PicoDiamante || id==IdObjetoVoxel.Tridente;
+    bool EsInicial(IdObjetoVoxel id) => id==IdObjetoVoxel.EspadaDiamante || id==IdObjetoVoxel.PicoDiamante || id==IdObjetoVoxel.Tridente || id==IdObjetoVoxel.ArcoFuego;
     PilaObjetoVoxel[] MigrarInventario(PartidaVoxel datos)
     {
         if(datos.bloques==null || datos.bloques.Length!=OrdenBloques.Length || datos.botines==null || datos.botines.Length!=OrdenBotines.Length ||
@@ -237,6 +268,24 @@ public partial class script
         }
         foreach(var par in restantes) if(par.Value>0 && PilasVoxel.Insertar(nuevo,new PilaObjetoVoxel(par.Key,par.Value))>0) return null;
         return nuevo;
+    }
+
+    bool MisionGuardadaValida(DatosMisionDragonVoxel datos)
+    {
+        if(datos==null) return true;
+        return MundoVoxel.PosicionFinita(datos.retorno) && MundoVoxel.NumeroFinito(datos.vidaDragon) && datos.vidaDragon>=0 && datos.vidaDragon<=200 &&
+            (!datos.aceptada || datos.cristales!=null && datos.cristales.Length==10) && (!datos.ganada || datos.aceptada && datos.vidaDragon<=0);
+    }
+    void ActualizarEquipoGuardadoAnterior()
+    {
+        var arco=new PilaObjetoVoxel(IdObjetoVoxel.ArcoFuego,1,true);
+        if(PilasVoxel.Insertar(inventario,arco)>0)
+        {
+            int sitio=System.Array.FindIndex(inventario,p=>!p.permanente);
+            if(sitio>=0) { ObjetoRecogibleVoxel.SoltarObjeto(rb.position,inventario[sitio].Copia()); inventario[sitio]=arco; }
+        }
+        foreach(var pila in new[]{new PilaObjetoVoxel(IdObjetoVoxel.Antorcha,64),new PilaObjetoVoxel(IdObjetoVoxel.ManzanaEncantada,16)})
+        { int resto=PilasVoxel.Insertar(inventario,pila); if(resto>0) { pila.cantidad=resto; ObjetoRecogibleVoxel.SoltarObjeto(rb.position,pila); } }
     }
 
     void MostrarAviso(string texto) { aviso = texto; avisoHasta = Time.unscaledTime + 4f; }

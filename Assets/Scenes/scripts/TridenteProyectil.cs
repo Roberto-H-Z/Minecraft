@@ -61,6 +61,8 @@ public class TridenteProyectil : MonoBehaviour
     void Impactar(Collider golpe)
     {
         if (clavado || regresando || (propietario != null && golpe.transform.IsChildOf(propietario))) return;
+        var dragon=golpe.GetComponentInParent<DragonEndVoxel>(); if(dragon!=null) dragon.RecibirDano(12,golpe,true);
+        var cristal=golpe.GetComponentInParent<CristalEndVoxel>(); if(cristal!=null) cristal.RecibirDano();
         enemigo monstruo = golpe.GetComponentInParent<enemigo>();
         if (monstruo != null) monstruo.RecibirDano(dano, transform.position - transform.forward);
         AnimalVoxel animal = golpe.GetComponentInParent<AnimalVoxel>();

@@ -38,6 +38,7 @@ public partial class script
         inventario[0] = new PilaObjetoVoxel(IdObjetoVoxel.EspadaDiamante,1,true);
         inventario[1] = new PilaObjetoVoxel(IdObjetoVoxel.PicoDiamante,1,true);
         inventario[2] = new PilaObjetoVoxel(IdObjetoVoxel.Tridente,1,true);
+        InicializarEquipoAventura();
         cursorObjeto.Limpiar(); SincronizarInventario();
     }
     void SincronizarInventario()
@@ -90,7 +91,7 @@ public partial class script
         if(bloque.tipo==TipoBloque.Cofre && !mundo.PuedeAbrirCofre(bloque))
         { AvisarInventario("Hay un bloque sobre el cofre."); return true; }
         estacionAbierta=bloque; bloque.Abierto=true;
-        inventarioAbierto=true; DetenerPicado(); tiempoComiendo=0f; cargandoTridente=false;
+        inventarioAbierto=true; DetenerPicado(); tiempoComiendo=0f; cargandoTridente=preparandoArco=false;
         entradaMovimiento=Vector2.zero; solicitudSalto=-10f;
         if(camaraSeguir!=null) camaraSeguir.MostrarCursorInterfaz(true);
         return true;

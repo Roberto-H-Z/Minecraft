@@ -64,6 +64,7 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scenes\scripts\DragonEndVoxel.cs" />
     <Compile Include="Assets\Scenes\scripts\SaltoAutomaticoVoxel.cs" />
     <Compile Include="Assets\Scenes\scripts\ObjetoRecogibleVoxel.cs" />
     <Compile Include="Assets\Scenes\scripts\VoxelCharacterVisual.cs" />
@@ -75,17 +76,23 @@
     <Compile Include="Assets\Scenes\scripts\FlechaEnemiga.cs" />
     <Compile Include="Assets\Scenes\scripts\MinecraftSkinBox.cs" />
     <Compile Include="Assets\Scenes\scripts\InterfazFabricacionVoxel.cs" />
+    <Compile Include="Assets\Scenes\scripts\MisionDragonVoxel.cs" />
     <Compile Include="Assets\Scenes\scripts\SectoresMundoVoxel.cs" />
     <Compile Include="Assets\Scenes\scripts\RodolfoSupervivencia.cs" />
     <Compile Include="Assets\Scenes\scripts\CatalogoObjetosVoxel.cs" />
+    <Compile Include="Assets\Scenes\scripts\TormentaEndVoxel.cs" />
     <Compile Include="Assets\Scenes\scripts\TridenteProyectil.cs" />
+    <Compile Include="Assets\Scenes\scripts\FlechaFuegoVoxel.cs" />
     <Compile Include="Assets\Scenes\scripts\BloqueFuncionalVoxel.cs" />
     <Compile Include="Assets\Scenes\scripts\MundoFabricacionVoxel.cs" />
     <Compile Include="Assets\Scenes\scripts\CieloVoxel.cs" />
     <Compile Include="Assets\Scenes\scripts\EfectosBloqueVoxel.cs" />
+    <Compile Include="Assets\Scenes\scripts\PruebasAventuraVoxel.cs" />
     <Compile Include="Assets\Scenes\scripts\InventarioVoxel.cs" />
     <Compile Include="Assets\Scenes\scripts\SonidosVoxel.cs" />
+    <Compile Include="Assets\Scenes\scripts\EquipoAventuraVoxel.cs" />
     <Compile Include="Assets\Scenes\scripts\proyectil.cs" />
+    <Compile Include="Assets\Scenes\scripts\AntorchaVoxel.cs" />
     <Compile Include="Assets\Scenes\scripts\RecetasVoxel.cs" />
     <Compile Include="Assets\Scenes\scripts\ModeloCofreVoxel.cs" />
     <Compile Include="Assets\Scenes\scripts\MundoVoxel.cs" />
@@ -95,6 +102,7 @@
   <ItemGroup>
     <None Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Shaders\CFXR_SETTINGS.cginc" />
     <None Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Shaders\CFXR.cginc" />
+    <None Include="Assets\Resources\Dragon\ORIGEN.txt" />
     <None Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Prefabs\Texts\_Make your own text effect.txt" />
     <None Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Shaders\CFXR_PASSES.cginc" />
     <None Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Shaders\CFXR_URP.cginc" />

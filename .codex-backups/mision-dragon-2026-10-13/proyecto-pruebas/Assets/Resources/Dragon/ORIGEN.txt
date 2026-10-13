@@ -1,0 +1,1 @@
+Modelo y textura proporcionados por el usuario en minecraft-ender-dragon/source/minecraft_-_ender_dragon.glb. Conversion de coordenadas glTF a Unity, geometria y UV originales. Animacion de vuelo anadida por codigo.

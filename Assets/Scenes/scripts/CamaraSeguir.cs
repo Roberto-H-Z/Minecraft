@@ -44,6 +44,8 @@ public class CamaraSeguir : MonoBehaviour
         Cursor.visible = mostrar;
     }
 
+    public void ForzarPrimeraPersona() { perspectiva=0; }
+
     public void RestablecerMirada(float horizontal, float vertical = 0f)
     {
         anguloHorizontal = horizontal;

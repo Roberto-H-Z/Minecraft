@@ -11,10 +11,11 @@ public enum IdObjetoVoxel
     Diamante, CerdoCocinado, CorderoCocinado, Vidrio,
     EspadaMadera, PicoMadera, HachaMadera, PalaMadera,
     EspadaPiedra, PicoPiedra, HachaPiedra, PalaPiedra,
-    EspadaHierro, PicoHierro, HachaHierro, PalaHierro, HachaDiamante, PalaDiamante
+    EspadaHierro, PicoHierro, HachaHierro, PalaHierro, HachaDiamante, PalaDiamante,
+    Antorcha, ArcoFuego, ManzanaEncantada, CascoDiamante, PetoDiamante, PantalonesDiamante, BotasDiamante
 }
 
-public enum ClaseHerramientaVoxel { Ninguna, Espada, Pico, Hacha, Pala, Tridente }
+public enum ClaseHerramientaVoxel { Ninguna, Espada, Pico, Hacha, Pala, Tridente, Arco }
 
 public sealed class DefinicionObjetoVoxel
 {
@@ -89,6 +90,14 @@ public static class CatalogoObjetosVoxel
         }
         DefinicionObjetoVoxel tridente = Agregar(lista, IdObjetoVoxel.Tridente, "Tridente", "Items/trident");
         tridente.herramienta = ClaseHerramientaVoxel.Tridente; tridente.limite = 1; tridente.resistencia = 250;
+        Bloque(lista,IdObjetoVoxel.Antorcha,"Antorcha",TipoBloque.Antorcha,"torch");
+        var arco=Agregar(lista,IdObjetoVoxel.ArcoFuego,"Arco de fuego e infinidad","Items/bow");
+        arco.herramienta=ClaseHerramientaVoxel.Arco; arco.limite=1; arco.resistencia=384;
+        Comida(lista,IdObjetoVoxel.ManzanaEncantada,"Manzana dorada encantada","golden_apple",4,9.6f);
+        IdObjetoVoxel[] equipo={IdObjetoVoxel.CascoDiamante,IdObjetoVoxel.PetoDiamante,IdObjetoVoxel.PantalonesDiamante,IdObjetoVoxel.BotasDiamante};
+        string[] nombres={"Casco de diamante","Peto de diamante","Pantalones de diamante","Botas de diamante"};
+        string[] imagenes={"diamond_helmet","diamond_chestplate","diamond_leggings","diamond_boots"}; int[] uso={363,528,495,429};
+        for(int i=0;i<4;i++) { var def=Agregar(lista,equipo[i],nombres[i],"Items/"+imagenes[i]); def.limite=1; def.resistencia=uso[i]; }
         return lista;
     }
 

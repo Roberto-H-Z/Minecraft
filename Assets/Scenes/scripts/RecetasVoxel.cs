@@ -48,6 +48,8 @@ public static class RecetasVoxel
             IdObjetoVoxel.Tablones, n, IdObjetoVoxel.Tablones, IdObjetoVoxel.Tablones, IdObjetoVoxel.Tablones, IdObjetoVoxel.Tablones);
         Agregar(recetas, IdObjetoVoxel.Horno, 1, 3, 3, IdObjetoVoxel.Adoquin, IdObjetoVoxel.Adoquin, IdObjetoVoxel.Adoquin,
             IdObjetoVoxel.Adoquin, n, IdObjetoVoxel.Adoquin, IdObjetoVoxel.Adoquin, IdObjetoVoxel.Adoquin, IdObjetoVoxel.Adoquin);
+        Agregar(recetas,IdObjetoVoxel.Antorcha,4,1,2,IdObjetoVoxel.Carbon,IdObjetoVoxel.Palo);
+        Agregar(recetas,IdObjetoVoxel.Antorcha,4,1,2,IdObjetoVoxel.CarbonVegetal,IdObjetoVoxel.Palo);
         string[] materiales = { "Madera", "Piedra", "Hierro", "Diamante" };
         IdObjetoVoxel[] materias = { IdObjetoVoxel.Tablones, IdObjetoVoxel.Adoquin, IdObjetoVoxel.LingoteHierro, IdObjetoVoxel.Diamante };
         for (int i = 0; i < materiales.Length; i++)

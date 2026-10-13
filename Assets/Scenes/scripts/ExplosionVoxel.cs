@@ -96,6 +96,7 @@ public partial class MundoVoxel
         switch(tipo)
         {
             case TipoBloque.Tierra: case TipoBloque.Arena: return .5f;
+            case TipoBloque.Antorcha: return 0f;
             case TipoBloque.Vidrio: return .3f;
             case TipoBloque.Madera: case TipoBloque.Tronco: case TipoBloque.MesaTrabajo: return 2f;
             case TipoBloque.Cofre: return 2.5f;
